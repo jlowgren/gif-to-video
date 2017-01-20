@@ -9,9 +9,10 @@ const ffmpeg = require('fluent-ffmpeg');
 const app = express();
 const port = process.env.PORT || 8080;
 
-const destination = path.join(__dirname, 'uploads');
+const videosDir = path.join(__dirname, 'public/videos');
+const uploadDir = path.join(__dirname, 'uploads');
 const storage = multer.diskStorage({
-  destination,
+  uploadDir,
   filename(req, file, cb) {
     crypto.pseudoRandomBytes(16, (err, raw) => {
       if (err) return cb(err);
@@ -24,10 +25,9 @@ const upload = multer({ storage });
 
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
-app.use(express.static('uploads'));
 
 app.get('/', (req, res) => {
-  fs.readdir(destination, (err, files) => {
+  fs.readdir(videosDir, (err, files) => {
     const videos = files
       .filter(file => path.extname(file) === '.mp4')
       .filter(junk.not);
@@ -38,7 +38,7 @@ app.get('/', (req, res) => {
 
 app.post('/upload', upload.single('file-upload'), (req, res) => {
   const { file } = req;
-  const target = path.join(destination, `${path.basename(file.filename)}.mp4`);
+  const target = path.join(__dirname, `public/videos/${path.basename(file.filename)}.mp4`);
   ffmpeg(req.file.path)
     .outputOptions([
       '-movflags', 'faststart',
