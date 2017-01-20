@@ -4,7 +4,8 @@
   "description": "Convert an animated gif to video",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "clean": "rm -rf uploads && rm -rf public/videos"
   },
   "repository": {
     "type": "git",
