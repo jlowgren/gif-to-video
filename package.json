@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "clean": "rm -rf uploads && rm -rf public/videos"
+    "clean": "rm -rf uploads public/videos/*"
   },
   "repository": {
     "type": "git",
