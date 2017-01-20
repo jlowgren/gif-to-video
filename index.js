@@ -28,6 +28,7 @@ app.use(express.static('public'));
 
 app.get('/', (req, res) => {
   fs.readdir(videosDir, (err, files) => {
+    if (err) return res.render('index', { error: err });
     const videos = files
       .filter(file => path.extname(file) === '.mp4')
       .filter(junk.not);
@@ -38,9 +39,10 @@ app.get('/', (req, res) => {
 
 app.post('/upload', upload.single('file-upload'), (req, res) => {
   const { file } = req;
-  console.log(file);
-  const target = path.join(__dirname, `public/videos/${path.basename(file.filename)}.mp4`);
-  ffmpeg(req.file.path)
+  const filename = file.filename.split()[0];
+  const target = path.join(videosDir, `${filename}.mp4`);
+
+  ffmpeg(file.path)
     .outputOptions([
       '-movflags', 'faststart',
       '-pix_fmt', 'yuv420p',
