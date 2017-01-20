@@ -39,7 +39,7 @@ app.get('/', (req, res) => {
 
 app.post('/upload', upload.single('file-upload'), (req, res) => {
   const { file } = req;
-  const filename = file.filename.split()[0];
+  const filename = file.filename.split('.')[0];
   const target = path.join(videosDir, `${filename}.mp4`);
 
   ffmpeg(file.path)
