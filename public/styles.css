@@ -1,0 +1,32 @@
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+  font: 100%/1.5 -apple-system, Helvetica, sans-serif;
+}
+
+* + * {
+  margin-top: 1rem;
+}
+
+video {
+  width: 100%;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  display: inline-block;
+  width: 50%
+}
+
+.error {
+  color: red;
+}

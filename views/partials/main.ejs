@@ -1,0 +1,23 @@
+<main role="main">
+  <% if (typeof error !== 'undefined') { %>
+    <p class="error"><%= error %></p>
+  <% } %>
+
+  <form method="POST" action="/upload" enctype="multipart/form-data">
+    <label for="file-upload">Select an animated gif:</label>
+    <input type="file" id="file-upload" name="file-upload" accept=".gif, image/gif">
+    <button type="submit">Convert to video</button>
+  </form>
+
+  <% if (typeof files !== 'undefined') { %>
+    <ul>
+    <% for (var i = 0; i < files.length; ++i) { %>
+      <li>
+        <video autoplay loop>
+          <source src="<%= files[i] %>" type="video/mp4">
+        </video>
+      </li>
+    <% } %>
+    </ul>
+  <% } %>
+</main>
