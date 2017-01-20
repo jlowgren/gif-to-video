@@ -12,7 +12,7 @@ const port = process.env.PORT || 8080;
 const videosDir = path.join(__dirname, 'public/videos');
 const uploadDir = path.join(__dirname, 'uploads');
 const storage = multer.diskStorage({
-  uploadDir,
+  destination: uploadDir,
   filename(req, file, cb) {
     crypto.pseudoRandomBytes(16, (err, raw) => {
       if (err) return cb(err);
@@ -38,6 +38,7 @@ app.get('/', (req, res) => {
 
 app.post('/upload', upload.single('file-upload'), (req, res) => {
   const { file } = req;
+  console.log(file);
   const target = path.join(__dirname, `public/videos/${path.basename(file.filename)}.mp4`);
   ffmpeg(req.file.path)
     .outputOptions([
