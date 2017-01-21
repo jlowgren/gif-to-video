@@ -3,7 +3,6 @@ const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
-const junk = require('junk');
 const ffmpeg = require('fluent-ffmpeg');
 
 const app = express();
@@ -28,10 +27,15 @@ app.use(express.static('public'));
 
 app.get('/', (req, res) => {
   fs.readdir(videosDir, (err, files) => {
-    if (err) return res.render('index', { error: err });
+    if (err) {
+      res.render('index', { error: err });
+      return;
+    }
+
+    const validExtensions = new RegExp('\.(webm|mp4)$', 'i');
+
     const videos = files
-      .filter(file => path.extname(file) === '.mp4')
-      .filter(junk.not);
+      .filter(file => file.match(validExtensions));
 
     res.render('index', { files: videos });
   });
